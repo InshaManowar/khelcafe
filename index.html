@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Author Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div class="container">
+        <div class="left-column">
+            <h1>Welcome to Khel Cafe</h1>
+            <p>Sports News in short!</p>
+        </div>
+        <div class="right-column">
+            <h2 class="mb-4">Login</h2>
+            <div class="form-input">
+                <input type="text" class="form-control" id="id" placeholder="Enter your ID">
+            </div>
+            <div class="form-input">
+                <input type="email" class="form-control" id="email" placeholder="Enter your email">
+            </div>
+            <button id="submitBtn" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+  
+    
+    <!-- Bootstrap JS and Popper.js (required for Bootstrap components) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+   <!-- Your existing sign-up page script... -->
+
+   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const submitBtn = document.getElementById('submitBtn');
+
+        submitBtn.addEventListener('click', async function() {
+            const idInput = document.getElementById('id');
+            const emailInput = document.getElementById('email');
+            const id = idInput.value;
+            const email = emailInput.value;
+            const urls = [
+                    'https://my-app-9tpgj.ondigitalocean.app/authors/getAuthorById/116158483177638487179',
+                    'https://my-app-9tpgj.ondigitalocean.app/authors/getAuthorById/114255669919842215211',
+                    'https://my-app-9tpgj.ondigitalocean.app/authors/getAuthorById/114493948756308691437',
+                    'https://my-app-9tpgj.ondigitalocean.app/authors/getAuthorById/117311846965699410843',
+                    'https://my-app-9tpgj.ondigitalocean.app/authors/getAuthorById/100898341953988191126',
+
+                ];
+            let isLoggedIn = false;
+            let fetchedName = '';
+
+            for (const url of urls) {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.id === id && data.email === email) {
+                    isLoggedIn = true;
+                    fetchedName = data.username; // Assuming the API response has a 'username' field
+                    break;
+                }
+            }
+
+            if (isLoggedIn) {
+                // Store the fetched name in local storage
+                localStorage.setItem('fetchedName', fetchedName);
+                localStorage.setItem('fetchedAuthorId', id); // Storing the author's ID in local storage
+                console.log('id',id)
+
+                // Redirect to another page
+                window.location.href = 'option.html';
+            } else {
+                // Display a Bootstrap alert
+                const alertContainer = document.createElement('div');
+                alertContainer.className = 'alert alert-danger mt-3';
+                alertContainer.textContent = 'Invalid ID or email. Please try again.';
+                document.body.appendChild(alertContainer);
+            }
+        });
+    });
+</script>
+
+
+      
+</body>
+</html>

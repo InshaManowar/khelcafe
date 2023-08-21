@@ -1,0 +1,41 @@
+        const jsonData = {
+            id: '',
+            heading: form.elements.heading.value,
+            language: form.elements.language.textContent,
+            verified: false,
+            author: {
+                id: authorDetails.id,
+                username: authorDetails.username,
+                email: authorDetails.email,
+                verified: true,
+                totalArticles: 10,
+                joinedOn: 'a',
+                imageUrl: '',
+                isAdmin: false,
+            },
+            type: form.elements.sport.textContent,
+            articleType: '',
+            imgUrl: [], // Populate this with image URLs later
+            date: '',
+            tags: form.elements.tags.value.split(','), // Split tags into an array
+            description: form.elements.description.value,
+            poll: {
+                question: '',
+                options: [''],
+                optionResults: [0],
+                participants: [{ id: '', index: '' }],
+            },
+            sendNotif: true,
+            quiz: {
+                question: '',
+                options: [''],
+                participants: [{ id: '', index: '' }],
+                answer: 0,
+            },
+            pictorial: {
+                images: [''],
+                text: [''],
+                onClick: [''],
+                bgImage: '',
+            },
+        };

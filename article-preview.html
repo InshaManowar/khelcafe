@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Roboto+Condensed:wght@300&display=swap"
+        rel="stylesheet">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const storedName = localStorage.getItem('fetchedName');
+
+            // Check if the user is not logged in
+            if (!storedName) {
+                // Redirect to the login page
+                window.location.href = 'index.html'; // Replace with your login page URL
+            }
+
+            // Update the navbar with the user's name
+            const usernameSpan = document.getElementById('username');
+            if (storedName) {
+                usernameSpan.textContent = `Welcome, ${storedName}`;
+            }
+        });
+    </script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Content Creation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/option.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary"
+        style="box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="https://play.google.com/store/apps/details?id=com.khelcafe.khelcafe&hl=en-IN">
+                <img src="images/logo.png" alt="Bootstrap" width="40" height="45">
+            </a>
+            <a class="navbar-brand"
+                href="https://play.google.com/store/apps/details?id=com.khelcafe.khelcafe&hl=en-IN">Khel Cafe - Author's
+                Portal</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+                <span class="mr-4" id="username">Welcome, Guest</span>
+                <a href="#" id="logoutBtn" class="btn btn-link">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="article-content">
+            <!-- Preview content will be dynamically populated here -->
+        </div>
+    </div>
+
+    <script src="javascript/preview.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+
+
+    <script src="javascript/logout.js"></script>
+</body>
+
+</html>

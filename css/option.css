@@ -1,0 +1,28 @@
+body {
+    background-color: #f8f8f8;
+    font-family: Roboto Condensed;
+}
+.container {
+    margin-top: 50px;
+}
+.btn-large {
+    padding: 15px 30px;
+    font-size: 20px;
+}
+.confirmation-modal {
+    text-align: center;
+    padding: 20px;
+}
+.btn-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+.btn-primary-custom {
+    background-color: #63a4ff;
+    border-color: #63a4ff;
+}
+.btn-primary-custom:hover{
+    background-color: #518cde;
+    border-color: #63a4ff;
+}

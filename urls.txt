@@ -1,0 +1,20 @@
+   const urls = [
+                    'https://my-app-9tpgj.ondigitalocean.app/authors/getAuthorById/116158483177638487179',
+                    'https://my-app-9tpgj.ondigitalocean.app/authors/getAuthorById/114255669919842215211',
+                    'https://my-app-9tpgj.ondigitalocean.app/authors/getAuthorById/114493948756308691437',
+                    'https://my-app-9tpgj.ondigitalocean.app/authors/getAuthorById/117311846965699410843',
+                    'https://my-app-9tpgj.ondigitalocean.app/authors/getAuthorById/100898341953988191126',
+
+                ];
+
+  const firebaseConfig = {
+          apiKey: "AIzaSyC4eVukZa-QOI7OXFdF8hC6XGBAyCVGQNY",
+          authDomain: "khelcafe.firebaseapp.com",
+          projectId: "khelcafe",
+          storageBucket: "khelcafe.appspot.com",
+          messagingSenderId: "343020766912",
+          appId: "1:343020766912:web:51eaf0ebcd987ac613cf25"
+        };
+      
+
+    

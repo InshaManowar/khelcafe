@@ -1,0 +1,131 @@
+
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Article Upload</title>
+       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet">
+        <!-- Load Firebase SDK -->
+        <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-storage.js"></script>
+        <script type="module" src="javascript/username.js"></script>
+        <script type="module" src="javascript/firebase-script.js"></script>
+        <script type="module" src="javascript/poll-payload.js"></script>
+	   
+        <script>
+            // Initialize an empty array to store the strings
+	// Initialize an empty array to store options
+const pollOptions = [];
+
+// Function to add option to the array and display in the form
+function addToArray() {
+    const optionInput = document.getElementById('option');
+    const optionsContainer = document.getElementById('options');
+
+    // Get the option text from the input field
+    const optionText = optionInput.value.trim();
+
+    if (optionText !== '') {
+        // Add the option to the array
+        pollOptions.push(optionText);
+
+        // Create a new element to display the option
+        const optionElement = document.createElement('div');
+        optionElement.textContent = optionText;
+
+        // Append the option element to the container
+        optionsContainer.appendChild(optionElement);
+
+        // Clear the input field
+        optionInput.value = '';
+    }
+}
+
+
+	function displayArray() {
+	  // Display the array of strings (you can customize this part)
+	  const optionsDisplay = document.getElementById("options");
+	  optionsDisplay.innerHTML = pollOptions.join(", ");
+	}
+	console.log(options_array)
+	function fillDate() {
+            const date = document.getElementById("date");
+            const currentDate = new Date();
+            const year = currentDate.getFullYear();
+            const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+            const day = String(currentDate.getDate()).padStart(2, "0");
+            const formattedDate = `${year}-${month}-${day}`;
+            date.value = formattedDate;
+        }
+
+        </script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+<link rel="stylesheet" href="css/article.css">
+        <title>Add Article</title>
+      
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="https://play.google.com/store/apps/details?id=com.khelcafe.khelcafe&hl=en-IN">
+                <img src="images/logo.png" alt="Bootstrap" width="40" height="45">
+            </a>
+            <a class="navbar-brand" href="https://play.google.com/store/apps/details?id=com.khelcafe.khelcafe&hl=en-IN">Khel Cafe - Author's Portal</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+                <span class="mr-4" id="username">Welcome, Guest</span>
+                <a href="#" id="logoutBtn" class="btn btn-link">Logout</a>
+            </div>
+        </div>
+    </nav>
+    
+    <h1 class="my-3">Create Poll</h1>
+    <div class="container">
+    <form id="addPollForm">
+    
+
+            <label for="question">Question:</label>
+            <input type="text" id="question" name="question">
+            
+            
+	  <label for="options">Create Options:</label>
+	  <input type="text" id="option" />
+	  <button type="button" onclick="addToArray()" style="margin-bottom: 20px;">Add</button>
+	  <div id="options"></div>
+            
+            
+     <label for="sendNotif">Send Notifications?</label>
+            <input type="checkbox" id="sendNotif" autocomplete="off"> 
+            
+            
+            <!-- <label for="date">Submission Date:</label>
+        <input type="date" id="date" name="date" readonly>
+        <button type="button" onclick="fillDate()">Add Date</button>
+         -->
+         <br>
+        <input type="submit" value="Submit">
+
+        
+    </form>
+
+    
+
+</div>
+
+       
+<!-- <script type="module" src="javascript/upload-image.js"></script> -->
+
+<script src="javascript/logout.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage.js"></script>
+</body>
+</html>
+</body>
