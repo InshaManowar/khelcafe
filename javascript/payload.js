@@ -1,10 +1,21 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('addArticleForm'); // Get the form element
-    const submitBtn = form.querySelector('[type="submit"]'); // Get the submit button inside the form
+    const form = document.getElementById('addArticleForm');
+    const submitBtn = form.querySelector('[type="submit"]');
 
     submitBtn.addEventListener('click', async function (event) {
-        event.preventDefault(); // Prevent the default form submission
+        event.preventDefault();
 
+        const heading = form.elements.heading.value.trim();
+        const language = form.elements.language.textContent.trim();
+        const sportType = form.elements.sport.textContent.trim();
+        const tags = form.elements.tags.value.trim();
+        const description = form.elements.description.value.trim();
+
+        if (!heading || !language || !sportType || !tags || !description) {
+            // Show an error message to the user indicating missing fields
+            alert('Please fill in all required fields.');
+            return; // Exit the function if any required field is empty
+        }
         const loggedInAuthorId = localStorage.getItem('fetchedAuthorId');
         console.log('id', loggedInAuthorId);
         const selectedContentType = localStorage.getItem('selectedContentType'); // Get the selected content type
