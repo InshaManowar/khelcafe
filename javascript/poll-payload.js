@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 poll: {
                     question: form.elements.question.value,
                     options: pollOptions,
-                    optionResults: '',
+                    optionResults:[0],
                     participants: [{ id: '', index: '' }],
                 },
                 sendNotif: sendNotif,

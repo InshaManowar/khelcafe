@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 poll: {
                     question: '',
                     options: [''],
-                    optionResults: '',
+                    optionResults:[0],
                     participants: [{ id: '', index: '' }],
                 },
                 sendNotif: false,
