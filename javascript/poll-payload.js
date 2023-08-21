@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     isAdmin: false,
                 },
                 type:'',
-                articleType: selectedContentType,
+                articleType: 'pollType',
                 imgUrl: '', // Populate this with image URLs later
                 date: currentDate,
                 tags: '', // Split tags into an array
