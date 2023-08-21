@@ -50,13 +50,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     question: form.elements.question.value,
                     options: pollOptions,
                     optionResults:[0],
-                    participants: [{ id: '', index: '' }],
+                    participants: [{ id: '', index: 0 }],
                 },
                 sendNotif: sendNotif,
                 quiz: {
                     question: '',
                     options: [''],
-                    participants: [{ id: '', index: '' }],
+                    participants: [{ id: '', index: 0 }],
                     answer: 0,
                 },
                 pictorial: {
