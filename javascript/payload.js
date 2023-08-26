@@ -1,8 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('addArticleForm');
-    const submitBtn = form.querySelector('[type="submit"]');
+    const submitButton = document.getElementById('submitButton');
+    const confirmCheckbox = document.getElementById('confirmCheckbox');
+    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
 
-    submitBtn.addEventListener('click', async function (event) {
+    // Add event listener to confirm checkbox
+    confirmCheckbox.addEventListener('change', function () {
+        submitButton.style.display = confirmCheckbox.checked ? 'block' : 'none';
+    });
+    submitButton.addEventListener('click', async function (event) {
         event.preventDefault();
 
         const heading = form.elements.heading.value.trim();
@@ -25,7 +31,13 @@ document.addEventListener('DOMContentLoaded', function () {
             const authorData = await authorResponse.json();
             return authorData;
         }
-
+        const confirmCheckbox = document.getElementById('confirmCheckbox');
+        const submitButton = document.getElementById('submitButton');
+        confirmCheckbox.addEventListener('change', function () {
+            submitButton.style.display = confirmCheckbox.checked ? 'block' : 'none';
+        }); submitButton.addEventListener('click', async function (event) {
+            event.preventDefault();
+        });
         async function uploadImages(files) {
             const imageUrls = [];
 
@@ -116,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 const previewUrl = `article-preview.html?type=${encodeURIComponent(form.elements.sport.textContent)}&id=${insertedId}&date=${currentDate}&authorId=${authorDetails.id}`;
                 console.log(insertedId);
+                successModal.show();
 
 
             } else {

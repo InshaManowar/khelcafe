@@ -20,6 +20,7 @@
     <script type="module" src="javascript/firebase-script.js"></script>
     <script type="module" src="javascript/poll-payload.js"></script>
 <link rel="stylesheet" href="css/poll.css">
+<link rel="stylesheet" href="css/confetti.css">
     <script>
         // Initialize an empty array to store the strings
         // Initialize an empty array to store options
@@ -180,11 +181,18 @@
 
 
     </div>
+    <svg class="dn">
+        <defs>
+            <symbol id="svg-confetti">
+                <path fill="currentColor" d="M-.017 6.91L4.035.012l2.587 1.52L2.57 8.43z"></path>
+            </symbol>
+        </defs>
+    </svg>
     <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel"> Successfuly Published</h5>
+                    <h5 class="modal-title" id="successModalLabel">Successfully Published</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -196,7 +204,44 @@
             </div>
         </div>
     </div>
+    <div class="confetti"></div>
+    <script>
+        function randomize(collection) {
+            var randomNumber = Math.floor(Math.random() * collection.length);
+            return collection[randomNumber];
+        }
 
+        function confetti() {
+            $(".confetti").empty();
+
+            var $confettiItems = $('<div class="confetti"></div>');
+            var colors = ["#3b5692", "#f9c70b", "#00abed", "#ea6747"];
+            var height = 6.6;
+            var width = 6.6;
+
+            var scale, $confettiItem;
+
+            for (var i = 0; i < 100; i++) {
+                scale = Math.random() * 1.75 + 1;
+                $confettiItem = $(
+                    `<svg class="confetti-item" width="${width * scale}" height="${height * scale}" viewbox="0 0 ${width} ${height}">
+                        <use transform="rotate(${Math.random() * 360}, ${width / 2}, ${height / 2})" xlink:href="#svg-confetti" />
+                    </svg>`
+                );
+                $confettiItem.css({
+                    animation: `${Math.random() + 2}s ${Math.random() * 2}s confetti-fall ease-in both`,
+                    color: randomize(colors),
+                    left: `${Math.random() * 100}vw`
+                });
+                $confettiItems.append($confettiItem);
+            }
+            $("body").append($confettiItems);
+        }
+
+        $("#successModal").on("shown.bs.modal", function () {
+            confetti();
+        });
+    </script>
    
     <script type="module" src="javascript/upload-image.js"></script>
 
