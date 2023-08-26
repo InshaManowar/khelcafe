@@ -12,12 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     submitButton.addEventListener('click', async function (event) {
         event.preventDefault();
 
-        const question = form.elements.question.value.trim();
-        const option1 = form.elements.option1.value.trim();
-        const option2 = form.elements.option2.value.trim();
-        const option3 = form.elements.option3.value.trim();
-        const option4 = form.elements.option4.value.trim();
-        const answer = parseInt(form.elements.answer.value); // Convert answer to integer
+       
         if (!language || !question) {
             alert('Please fill in all required fields.');
             return;
@@ -53,9 +48,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             return imageUrls;
         }
-        const sendNotif = form.elements.sendNotif.checked;
 
-        const [authorDetails, imageUrls] = await Promise.all([fetchAuthorDetails(), uploadImages(form.elements.images.files)]);
+        const [authorDetails] = await Promise.all([fetchAuthorDetails()]);
 
         console.log('Author Details:', authorDetails);
         console.log('Image URLs:', imageUrls);
@@ -84,10 +78,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     isAdmin: false,
                 },
                 type: '',
-                articleType: 'quizType',
-                imgUrl: imageUrls,
+                articleType: 'storyType',
+                imgUrl: '',
                 date: currentDate,
-                tags: formattedImageCredit ? [formattedImageCredit, ...tagsArray] : tagsArray,
+                tags: '',
                 description: '',
                 poll: {
                     question: '',
@@ -97,16 +91,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 sendNotif: sendNotif,
                 quiz: {
-                    question: question,
-                    options: [
-                        option1,
-                        option2,
-                        option3,
-                        option4
-                    ],
-                    answer: answer,
-
+                    question: '',
+                    options: [''],
                     participants: [{ id: '', index: 0 }],
+                    answer: 0,
                 },
                 pictorial: {
                     images: [''],
