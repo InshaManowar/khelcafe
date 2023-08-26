@@ -11,15 +11,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const tags = form.elements.tags.value.trim();
         const description = form.elements.description.value.trim();
 
-        if (!heading || !language || !sportType || !tags || !description) {
-            // Show an error message to the user indicating missing fields
+        if (!heading || !language || !sportType || !description) {
             alert('Please fill in all required fields.');
-            return; // Exit the function if any required field is empty
+            return;
         }
         const loggedInAuthorId = localStorage.getItem('fetchedAuthorId');
         console.log('id', loggedInAuthorId);
-        const selectedContentType = localStorage.getItem('selectedContentType'); // Get the selected content type
-        const currentDate = new Date().toISOString().substring(0, 23); // Format: 'YYYY-MM-DDTHH:mm:ss.sss'
+        const selectedContentType = localStorage.getItem('selectedContentType');
+        const currentDate = new Date().toISOString().substring(0, 23);
 
         async function fetchAuthorDetails() {
             const authorResponse = await fetch(`https://my-app-9tpgj.ondigitalocean.app/authors/getAuthorById/${loggedInAuthorId}`);
@@ -40,13 +39,19 @@ document.addEventListener('DOMContentLoaded', function () {
             return imageUrls;
         }
 
-        // Fetch author details and Firebase image URLs
         const [authorDetails, imageUrls] = await Promise.all([fetchAuthorDetails(), uploadImages(form.elements.images.files)]);
 
         console.log('Author Details:', authorDetails);
         console.log('Image URLs:', imageUrls);
+        const tagInput = form.elements.tags;
+        const imageCreditInput = form.elements.imageCredit;
+        
+        const tagsArray = tagInput.value.split(',').map(tag => tag.trim());
+        const imageCredit = imageCreditInput.value.trim();
+        
+        const formattedImageCredit = imageCredit ? "Image : " + imageCredit : ""; // Add prefix if credit is present
 
-        // Populate the payload for article submission
+
         function populatePayload() {
             const jsonData = {
                 heading: form.elements.heading.value,
@@ -66,12 +71,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 articleType: null,
                 imgUrl: imageUrls,
                 date: currentDate,
-                tags: form.elements.tags.value.split(','), 
+                tags: formattedImageCredit || tagsArray.length > 0 ? [formattedImageCredit] : '',
                 description: form.elements.description.value,
                 poll: {
                     question: '',
                     options: [''],
-                    optionResults:[0],
+                    optionResults: [0],
                     participants: [{ id: '', index: 0 }],
                 },
                 sendNotif: false,
@@ -92,10 +97,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return jsonData;
         }
 
-        // Populate and submit the payload
         const jsonData = populatePayload();
 
-        // Make the POST request to the API
         try {
             const response = await fetch('https://my-app-9tpgj.ondigitalocean.app/articles/addArticle/one', {
                 method: 'POST',
@@ -104,25 +107,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 body: JSON.stringify(jsonData),
             });
-        
+
             if (response.ok) {
                 const result = await response.json();
                 console.log('Article added successfully. Response:', result);
-                
-                const insertedId = result.insertedId; // Get the insertedId from the response
-                
+
+                const insertedId = result.insertedId;
+
                 const previewUrl = `article-preview.html?type=${encodeURIComponent(form.elements.sport.textContent)}&id=${insertedId}&date=${currentDate}&authorId=${authorDetails.id}`;
                 console.log(insertedId);
-                
-                // Redirect to the preview page
-                // window.location.href = previewUrl;
+
+
             } else {
                 console.error('Failed to add article:', response.status, response.statusText);
-                // Optionally, show an error message to the user
             }
         } catch (error) {
             console.error('Error:', error);
-            // Optionally, show an error message to the user
         }
     });
 });

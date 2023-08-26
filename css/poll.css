@@ -1,0 +1,8 @@
+.option {
+    width: 50% !important; /* Adjust the width value as needed */
+}
+button.remove-button {
+    display: inline-block;
+    margin-left: 10px;
+    /* Adjust margin as needed */
+}
