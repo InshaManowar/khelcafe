@@ -18,7 +18,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const option3 = form.elements.option3.value.trim();
         const option4 = form.elements.option4.value.trim();
         const answer = parseInt(form.elements.answer.value); // Convert answer to integer
-
+        if (!language || !question) {
+            alert('Please fill in all required fields.');
+            return;
+        }
         const loggedInAuthorId = localStorage.getItem('fetchedAuthorId');
         console.log('id', loggedInAuthorId);
         const currentDate = new Date().toISOString().substring(0, 23);

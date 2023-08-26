@@ -93,7 +93,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="css/article.css">
-    <title>Add Article</title>
+    <title>Add Poll</title>
 
 </head>
 
@@ -168,29 +168,36 @@
             </div>
 
             <br>
-            <button class="btn btn-primary" id="confirmBtn">Confirm</button>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="confirmCheckbox">
+                <label class="form-check-label" for="confirmCheckbox">Confirming that the article is without
+                    errors</label>
+            </div>
+
             <br>
-            <input type="submit" value="Submit" class="btn btn-success" id="submitButton" style="display: none;">
+            <button class="btn btn-success" id="submitButton" style="display: none;">Submit</button>
         </form>
 
 
     </div>
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel"> Successfuly Published</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Your poll has been successfully published!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-
-    <!-- <script type="module" src="javascript/upload-image.js"></script> -->
-    <script>
-        const confirmButton = document.getElementById('confirmBtn');
-
-
-        const submitButton = document.getElementById('submitButton');
-
-        // Add a click event listener to the confirm button
-        confirmButton.addEventListener('click', function () {
-            // Enable the submit button when the confirm button is clicked 
-            event.preventDefault();
-            submitButton.style.display = 'block';
-        });
-    </script>
+   
     <script type="module" src="javascript/upload-image.js"></script>
 
     <script src="javascript/logout.js"></script>

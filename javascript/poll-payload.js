@@ -1,18 +1,44 @@
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('addPollForm');
-    const submitBtn = form.querySelector('[type="submit"]');
-    submitBtn.addEventListener('click', async function (event) {
+    const submitButton = document.getElementById('submitButton');
+    const confirmCheckbox = document.getElementById('confirmCheckbox');
+    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+    // Add event listener to confirm checkbox
+    confirmCheckbox.addEventListener('change', function () {
+        submitButton.style.display = confirmCheckbox.checked ? 'block' : 'none';
+    });
+
+    submitButton.addEventListener('click', async function (event) {
         event.preventDefault();
-        const loggedInAuthorId = localStorage.getItem('fetchedAuthorId');
-        console.log('id', loggedInAuthorId);
+
+
+
         const currentDate = new Date().toISOString().substring(0, 23);
         const language = form.elements.language.textContent.trim();
         const question = form.elements.question.value.trim();
-
+        const loggedInAuthorId = localStorage.getItem('fetchedAuthorId');
+        console.log('id', loggedInAuthorId);
         if (!language || !question) {
             alert('Please fill in all required fields.');
             return;
         }
+        const confirmCheckbox = document.getElementById('confirmCheckbox');
+        const submitButton = document.getElementById('submitButton');
+
+        confirmCheckbox.addEventListener('change', function () {
+            submitButton.style.display = confirmCheckbox.checked ? 'block' : 'none';
+        }); submitButton.addEventListener('click', async function (event) {
+            event.preventDefault();
+
+
+        });
+
+        async function fetchAuthorDetails() {
+            const authorResponse = await fetch(`https://my-app-9tpgj.ondigitalocean.app/authors/getAuthorById/${loggedInAuthorId}`);
+            const authorData = await authorResponse.json();
+            return authorData;
+        }
+
         async function uploadImages(files) {
             const imageUrls = [];
 
@@ -24,12 +50,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             return imageUrls;
-        }
-
-        async function fetchAuthorDetails() {
-            const authorResponse = await fetch(`https://my-app-9tpgj.ondigitalocean.app/authors/getAuthorById/${loggedInAuthorId}`);
-            const authorData = await authorResponse.json();
-            return authorData;
         }
         const sendNotif = form.elements.sendNotif.checked;
         const [authorDetails, imageUrls] = await Promise.all([fetchAuthorDetails(), uploadImages(form.elements.images.files)]);
@@ -102,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const result = await response.json();
                 console.log('Article added successfully. Response:', result);
 
-                const insertedId = result.insertedId;
+                successModal.show();
 
             } else {
                 console.error('Failed to add article:', response.status, response.statusText);
