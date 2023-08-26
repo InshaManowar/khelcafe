@@ -1,8 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('addQuizForm');
-    const submitBtn = form.querySelector('[type="submit"]');
+    const submitButton = document.getElementById('submitButton');
+    const confirmCheckbox = document.getElementById('confirmCheckbox');
+    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
 
-    submitBtn.addEventListener('click', async function (event) {
+    // Add event listener to confirm checkbox
+    confirmCheckbox.addEventListener('change', function () {
+        submitButton.style.display = confirmCheckbox.checked ? 'block' : 'none';
+    });
+
+    submitButton.addEventListener('click', async function (event) {
         event.preventDefault();
 
         const question = form.elements.question.value.trim();
@@ -11,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const option3 = form.elements.option3.value.trim();
         const option4 = form.elements.option4.value.trim();
         const answer = parseInt(form.elements.answer.value); // Convert answer to integer
-        
+
         const loggedInAuthorId = localStorage.getItem('fetchedAuthorId');
         console.log('id', loggedInAuthorId);
         const currentDate = new Date().toISOString().substring(0, 23);
@@ -21,7 +28,16 @@ document.addEventListener('DOMContentLoaded', function () {
             const authorData = await authorResponse.json();
             return authorData;
         }
+        const confirmCheckbox = document.getElementById('confirmCheckbox');
+        const submitButton = document.getElementById('submitButton');
 
+        confirmCheckbox.addEventListener('change', function () {
+            submitButton.style.display = confirmCheckbox.checked ? 'block' : 'none';
+        }); submitButton.addEventListener('click', async function (event) {
+            event.preventDefault();
+
+
+        });
         async function uploadImages(files) {
             const imageUrls = [];
 
@@ -34,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             return imageUrls;
         }
+        const sendNotif = form.elements.sendNotif.checked;
 
         const [authorDetails, imageUrls] = await Promise.all([fetchAuthorDetails(), uploadImages(form.elements.images.files)]);
 
@@ -41,10 +58,10 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Image URLs:', imageUrls);
         const tagInput = form.elements.tags;
         const imageCreditInput = form.elements.imageCredit;
-        
+
         const tagsArray = tagInput.value.split(',').map(tag => tag.trim());
         const imageCredit = imageCreditInput.value.trim();
-        
+
         const formattedImageCredit = imageCredit ? "Image : " + imageCredit : ""; // Add prefix if credit is present
 
 
@@ -63,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     imageUrl: authorDetails.imageUrl,
                     isAdmin: false,
                 },
-                type:'',
+                type: '',
                 articleType: 'quizType',
                 imgUrl: imageUrls,
                 date: currentDate,
@@ -75,14 +92,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     optionResults: [0],
                     participants: [{ id: '', index: 0 }],
                 },
-                sendNotif: false,
+                sendNotif: sendNotif,
                 quiz: {
                     question: question,
                     options: [
-                       option1,
-                       option2,
+                        option1,
+                        option2,
                         option3,
-                       option4
+                        option4
                     ],
                     answer: answer,
 
@@ -98,8 +115,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             return jsonData;
         }
-
+        console.log('payload created')
         const jsonData = populatePayload();
+
 
         try {
             const response = await fetch('https://my-app-9tpgj.ondigitalocean.app/articles/addArticle/one', {
@@ -114,11 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const result = await response.json();
                 console.log('Article added successfully. Response:', result);
 
-                const insertedId = result.insertedId;
-
-                const previewUrl = `article-preview.html?type=${encodeURIComponent(form.elements.sport.textContent)}&id=${insertedId}&date=${currentDate}&authorId=${authorDetails.id}`;
-                console.log(insertedId);
-
+                successModal.show();
 
             } else {
                 console.error('Failed to add article:', response.status, response.statusText);
@@ -127,4 +141,5 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error:', error);
         }
     });
+
 });

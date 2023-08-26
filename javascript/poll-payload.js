@@ -32,16 +32,14 @@ document.addEventListener('DOMContentLoaded', function () {
             return authorData;
         }
         const sendNotif = form.elements.sendNotif.checked;
-        const [authorDetails, imageUrls] = await Promise.all([fetchAuthorDetails()]);
+        const [authorDetails, imageUrls] = await Promise.all([fetchAuthorDetails(), uploadImages(form.elements.images.files)]);
         console.log('Author Details:', authorDetails);
-        console.log(pollOptions)
         console.log('Image URLs:', imageUrls);
+
         const tagInput = form.elements.tags;
         const imageCreditInput = form.elements.imageCredit;
-        
         const tagsArray = tagInput.value.split(',').map(tag => tag.trim());
         const imageCredit = imageCreditInput.value.trim();
-        
         const formattedImageCredit = imageCredit ? "Image : " + imageCredit : ""; // Add prefix if credit is present
 
 
