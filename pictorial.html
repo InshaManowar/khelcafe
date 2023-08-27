@@ -1,17 +1,43 @@
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-
-    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>Upload Images</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-storage.js"></script>
+    <link rel="stylesheet" href="css/story.css">
 </head>
-<body>
 
-    <div class="container mt-5 text-center">
-        <h5>Coming soon!</h5>
+<body class="bg-light">
+    <div class="upload__box">
+        <div class="upload__btn-box">
+            <label class="upload__btn">
+                <p>Upload images</p>
+                <input type="file" multiple="" data-max_length="20" class="upload__inputfile">
+            </label>
+        </div>
+        <div class="upload__img-wrap"></div>
     </div>
     
+    <!-- Checkbox to confirm completion of uploading -->
+    <label>
+        <input type="checkbox" id="uploadCompleteCheckbox">
+        I have completed uploading all images
+    </label>
+    
+    <!-- Button to get image URLs -->
+    <button id="getUrlsButton" class="btn btn-primary" disabled>Get Image URLs</button>
+    
+    <!-- Loader -->
+    <div id="loader" class="spinner-border text-primary" style="display: none;"></div>
+    
+    <script src="javascript/multiple.js"></script>
 </body>
+
 </html>
