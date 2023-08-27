@@ -16,7 +16,8 @@ firebase.initializeApp(firebaseConfig);
     });
 
     const uploadedImageUrls = []; // Array to store uploaded image URLs
-    let isUploading = false; // Flag to track if images are currently uploading
+    const captions = []; // Array to store captions
+    const links = []; // Array to store links    let isUploading = false; // Flag to track if images are currently uploading
 
     function ImgUpload() {
         const imgWrapList = document.querySelectorAll('.upload__img-wrap');
@@ -43,11 +44,18 @@ firebase.initializeApp(firebaseConfig);
                     }
 
                     const captionInput = document.createElement('input'); // Create an input element for caption
+                    const linkInput = document.createElement('input'); // Create an input element for link
                     captionInput.type = 'text';
+                    linkInput.type = 'text'; // Set the input type to text for link
                     captionInput.placeholder = 'Enter caption';
+                    linkInput.placeholder = 'Enter link'; // Set placeholder for link input
                     captionInput.classList.add('image-caption'); // Add a class for styling
+                    linkInput.classList.add('image-link'); // Add a class for styling
                     captionInput.addEventListener('input', function () {
                         f.caption = captionInput.value; // Store the caption with the file object
+                    });
+                    linkInput.addEventListener('input', function () {
+                        f.link = linkInput.value; // Store the link with the file object
                     });
                     const reader = new FileReader();
                     reader.onload = function (e) {
@@ -57,10 +65,12 @@ firebase.initializeApp(firebaseConfig);
                             <div class='img-bg' style='background-image: url(${e.target.result})' data-file='${f.name}'>
                                 <div class='upload__img-close'></div>
                             </div>`;
-                        imgBox.appendChild(captionInput); // Append the caption input
+                        imgBox.appendChild(captionInput); 
+                        imgBox.appendChild(linkInput); // Append the caption input
                         imgWrap.appendChild(imgBox);
                     };
                     reader.readAsDataURL(f);
+                    filesToUpload.push(f);
                 }
             });
 
@@ -92,9 +102,11 @@ firebase.initializeApp(firebaseConfig);
                     const imageInfos = await Promise.all(uploadPromises);
                     for (const info of imageInfos) {
                         uploadedImageUrls.push(info.downloadURL);
-                        console.log('Uploaded Image URL:', info.downloadURL);
-                        console.log('Caption:', info.caption); // Display the caption
-                
+                        captions.push(info.caption);
+                        links.push(info.link);                        
+                         console.log('Uploaded Image URL:', info.downloadURL);
+                        console.log('Caption:', info.caption);
+                        console.log('Link:', info.link);                
                         // Create a new caption element for display
                         const captionDisplay = document.createElement('p');
                         captionDisplay.textContent = `Caption: ${info.caption}`;
@@ -132,6 +144,7 @@ firebase.initializeApp(firebaseConfig);
         const storageRef = firebase.storage().ref(`images/${file.name}`);
         await storageRef.put(file);
         const downloadURL = await storageRef.getDownloadURL();
-        const caption = file.caption || ''; // Get the caption from the file object
-        return { downloadURL, caption }; 
+        const caption = file.caption || '';
+        const link = file.link || ''; // Assuming you have a way to get the link value
+        return { downloadURL, caption, link };
     }

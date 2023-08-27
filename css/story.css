@@ -85,3 +85,26 @@ p {
     position: relative;
     padding-bottom: 100%;
 }
+/* Add styles for the image caption and link inputs */
+.image-caption,
+.image-link {
+    width: 100%; /* Adjust the width as needed */
+    padding: 5px; /* Adjust the padding as needed */
+    margin-top: 5px; /* Add some space between inputs */
+    border: 1px solid #ccc; /* Add a border for a visible input field */
+    border-radius: 4px; /* Add some border radius for a rounded appearance */
+}
+
+/* Additional styling for the close button */
+.upload__img-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    color: white;
+    text-align: center;
+    line-height: 20px;
+}
