@@ -1,52 +1,38 @@
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('addStoryForm');
-    const submitButton = document.getElementById('submitButton');
-    const confirmCheckbox = document.getElementById('confirmCheckbox');
+    const submitButton = document.getElementById('getUrlsButton');
     const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-    // Add event listener to confirm checkbox
-    confirmCheckbox.addEventListener('change', function () {
-        submitButton.style.display = confirmCheckbox.checked ? 'block' : 'none';
-    });
 
     submitButton.addEventListener('click', async function (event) {
-        event.preventDefault();
-        const currentDate = new Date().toISOString().substring(0, 23);
-        const language = form.elements.language.textContent.trim();
-        const loggedInAuthorId = localStorage.getItem('fetchedAuthorId');
-        console.log('id', loggedInAuthorId);
-        if (!language || !question) {
-            alert('Please fill in all required fields.');
-            return;
-        }
-
-        async function fetchAuthorDetails() {
-            const authorResponse = await fetch(`https://my-app-9tpgj.ondigitalocean.app/authors/getAuthorById/${loggedInAuthorId}`);
-            const authorData = await authorResponse.json();
-            return authorData;
-        }
-
-        const [authorDetails] = await Promise.all([fetchAuthorDetails()]);
-        console.log('Author Details:', authorDetails);
-
-        // Get the selected images from the file input
-        const imageInput = document.getElementById('images');
-        const imageFiles = imageInput.files;
-        async function uploadImages(files) {
-            const imageUrls = [];
-
-            for (const file of files) {
-                const storageRef = firebase.storage().ref(`images/${file.name}`);
-                await storageRef.put(file);
-                const downloadURL = await storageRef.getDownloadURL();
-                imageUrls.push(downloadURL);
+        try {
+            event.preventDefault();
+            const currentDate = new Date().toISOString().substring(0, 23);
+            const language = form.elements.language.value.trim(); // Use .value instead of .textContent
+            const loggedInAuthorId = localStorage.getItem('fetchedAuthorId');
+            console.log('id', loggedInAuthorId);
+            
+            // Check for required fields like language
+            if (!language) {
+                alert('Please fill in all required fields.');
+                return;
             }
 
-            return imageUrls;
-        }
+            // Fetch author details
+            async function fetchAuthorDetails() {
+                const authorResponse = await fetch(`https://my-app-9tpgj.ondigitalocean.app/authors/getAuthorById/${loggedInAuthorId}`);
+                const authorData = await authorResponse.json();
+                return authorData;
+            }
 
-        // Upload images and get their URLs
-        const imageUrls = await uploadImages(imageFiles);
-        console.log('Image URLs:', imageUrls);
+            const [authorDetails] = await Promise.all([fetchAuthorDetails()]);
+            console.log('Author Details:', authorDetails);
+
+            // Assuming you have defined the uploadImages function correctly
+            const imageUrls = await uploadImages(imageFiles);
+            
+            // Assuming you have defined captions and links arrays elsewhere
+            const captions = ['caption1', 'caption2']; // Replace with your captions
+            const links = ['link1', 'link2']; // Replace with your links
 
         function populatePayload() {
             const jsonData = {
@@ -83,8 +69,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 pictorial: {
                     images: imageUrls,
-                    text: [''],
-                    onClick: [''],
+                    text: captions,  // Assuming captions array is defined
+                    onClick: links,
                     bgImage: '',
                 },
             };
@@ -92,30 +78,27 @@ document.addEventListener('DOMContentLoaded', function () {
             return jsonData;
         }
 
+   
         const jsonData = populatePayload();
 
-        try {
-            const response = await fetch('https://my-app-9tpgj.ondigitalocean.app/articles/addArticle/one', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(jsonData),
-            });
-            if (response.ok) {
-                const result = await response.json();
-                console.log('Article added successfully. Response:', result);
+        // Make API request
+        const response = await fetch('https://my-app-9tpgj.ondigitalocean.app/articles/addArticle/one', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(jsonData),
+        });
 
-                successModal.show();
-
-            } else {
-                console.error('Failed to add article:', response.status, response.statusText);
-            }
-        } catch (error) {
-            console.error('Error:', error);
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Article added successfully. Response:', result);
+            successModal.show();
+        } else {
+            console.error('Failed to add article:', response.status, response.statusText);
         }
-    });
+    } catch (error) {
+        console.error('Error:', error);
+    }
 });
-
-
-
+});

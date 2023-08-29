@@ -15,29 +15,37 @@
 </head>
 
 <body class="bg-light">
-    <div class="upload__box">
-        <div class="upload__btn-box">
-            <label class="upload__btn">
-                <p>Upload images</p>
-                <input type="file" multiple="" data-max_length="20" class="upload__inputfile">
-            </label>
-        </div>
-        <div class="upload__img-wrap"></div>
-    </div>
-    
-    <!-- Checkbox to confirm completion of uploading -->
-    <label>
-        <input type="checkbox" id="uploadCompleteCheckbox">
-        I have completed uploading all images
-    </label>
-    
-    <!-- Button to get image URLs -->
-    <button id="getUrlsButton" class="btn btn-primary" disabled>Get Image URLs</button>
-    
-    <!-- Loader -->
-    <div id="loader" class="spinner-border text-primary" style="display: none;"></div>
 
+     <div class="container">
+        <div class="upload__box" id="addStoryForm">
+            <div class="upload__btn-box">
+                <label class="upload__btn">
+                    <p>Upload images</p>
+                    <input type="file" multiple="" data-max_length="20" class="upload__inputfile">
+                </label>
+            </div>
+            <div class="upload__img-wrap"></div>
+        </div>
+        <label for="language">Language:</label>
+        <select class="form-control" id="language" name="language">
+            <option value="English">English</option>
+            <option value="Hindi">Hindi</option>
+        </select>
+        <!-- Checkbox to confirm completion of uploading -->
+        <label>
+            <input type="checkbox" id="uploadCompleteCheckbox">
+            I have completed uploading all images
+        </label>
+        
+        <!-- Button to get image URLs -->
+        <button id="getUrlsButton" class="btn btn-primary" disabled>Get Image URLs</button>
+        
+        <!-- Loader -->
+        <div id="loader" class="spinner-border text-primary" style="display: none;"></div>
+
+     </div>
     <script src="javascript/multiple.js"></script>
+
 </body>
 
 </html>
