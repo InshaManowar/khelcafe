@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 articleType: null,
                 imgUrl: imageUrls,
                 date: currentDate,
-                tags: formattedImageCredit || tagsArray.length > 0 ? [formattedImageCredit] : '',
+                tags: ["", ...formattedImageCredit || tagsArray.length > 0 ? [formattedImageCredit, ...tagsArray] : ''],
                 description: form.elements.description.value,
                 poll: {
                     question: '',
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     optionResults: [0],
                     participants: [{ id: '', index: 0 }],
                 },
-                sendNotif: false,
+                sendNotif: form.elements.sendNotif.checked,
                 quiz: {
                     question: '',
                     options: [''],
