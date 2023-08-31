@@ -123,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log('Article added successfully. Response:', result);
 
                 successModal.show();
+                form.reset();
 
             } else {
                 console.error('Failed to add article:', response.status, response.statusText);
