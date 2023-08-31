@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 articleType: null,
                 imgUrl: imageUrls,
                 date: currentDate,
-                tags: ["", ...formattedImageCredit || tagsArray.length > 0 ? [formattedImageCredit, ...tagsArray] : ''],
+                tags: [...formattedImageCredit || tagsArray.length > 0 ? [formattedImageCredit, "", ...tagsArray] : ''],
                 description: form.elements.description.value,
                 poll: {
                     question: '',
@@ -129,6 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const previewUrl = `article-preview.html?type=${encodeURIComponent(form.elements.sport.textContent)}&id=${insertedId}&date=${currentDate}&authorId=${authorDetails.id}`;
                 console.log(insertedId);
                 successModal.show();
+                form.reset();
 
 
             } else {

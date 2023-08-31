@@ -10,6 +10,7 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+const form = document.getElementById('addStoryForm');
 
 document.addEventListener('DOMContentLoaded', function () {
     ImgUpload();
@@ -104,19 +105,63 @@ function ImgUpload() {
                     uploadedImageUrls.push(info.downloadURL);
                     captions.push(info.caption);
                     links.push(info.link);
-                    console.log('Uploaded Image URL:', info.downloadURL);
-                    console.log('Caption:', info.caption);
-                    console.log('Link:', info.link);
+                   
                     // Create a new caption element for display
                     const captionDisplay = document.createElement('p');
                     imgWrapList[0].appendChild(captionDisplay); // You can adjust the index if needed
                 }
+
                 console.log('All Uploaded Image URLs:', uploadedImageUrls);
                 console.log('All Captions:', captions);
                 console.log('All Links:', links);
-
+                const currentDate = new Date().toISOString().substring(0, 23);
+                const language = form.elements.language.textContent.trim();
+                const loggedInAuthorId = localStorage.getItem('fetchedAuthorId');
+                console.log('id', loggedInAuthorId);
+                if (!language || !question) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+                // Fetch author details
+                async function fetchAuthorDetails() {
+                    const authorResponse = await fetch(`https://my-app-9tpgj.ondigitalocean.app/authors/getAuthorById/${loggedInAuthorId}`);
+                    const authorData = await authorResponse.json();
+                    return authorData;
+                }
+    
+                const [authorDetails] = await Promise.all([fetchAuthorDetails()]);
                 const payload = {
-                    // Other properties of the payload...
+                    heading: '', // Add the heading if needed
+                    language: form.elements.language.value,
+                    verified: false, // Change this if needed
+                    author: {
+                        id: authorDetails.id,
+                        username: authorDetails.username,
+                        email: authorDetails.email,
+                        verified: authorDetails.verified,
+                        totalArticles: authorDetails.totalArticles,
+                        joinedOn: authorDetails.joinedOn,
+                        imageUrl: authorDetails.imageUrl,
+                        isAdmin: false,
+                    },
+                    type: '', // Add the type if needed
+                    articleType: 'storyType',
+                    imgUrl: '',
+                    date: currentDate,
+                    tags: '', // Add tags if needed
+                    description: '', // Add description if needed
+                    poll: {
+                        question: '',
+                        options: '',
+                        optionResults: [0],
+                        participants: [{ id: '', index: 0 }],
+                    },
+                    quiz: {
+                        question: '',
+                        options: [''],
+                        participants: [{ id: '', index: 0 }],
+                        answer: 0,
+                    },
                     pictorial: {
                         images: uploadedImageUrls,
                         text: captions,
@@ -124,6 +169,7 @@ function ImgUpload() {
                         bgImage: '',  // Set the background image if applicable
                     },
                 };
+        
                 // Make the API request
                 const response = await fetch('https://my-app-9tpgj.ondigitalocean.app/articles/addArticle/one', {
                     method: 'POST',
